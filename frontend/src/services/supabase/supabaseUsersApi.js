@@ -27,6 +27,34 @@ export const fetchCustomers = async () => {
   return data || [];
 };
 
+export const fetchCustomerProfileById = async (customer_id) => {
+  const { data, error } = await supabase
+    .from('customer')
+    .select('*')
+    .eq('customer_id', customer_id)
+    .single();
+
+  if (error) {
+    console.error('Error fetching customer profile:', error);
+    throw error;
+  }
+  return data;
+};
+
+export const fetchCustomerAddresses = async (customer_id) => {
+  const { data, error } = await supabase
+    .from('address') // Use table 'address' or 'customer_address' depending on schema, guessing 'address' from others
+    .select('*')
+    .eq('customer_id', customer_id);
+
+  if (error) {
+    console.error('Error fetching customer addresses:', error);
+    return [];
+  }
+  return data || [];
+};
+
+
 export const createCustomer = async (customerData) => {
   try {
     // Lấy customer_id cao nhất hiện tại

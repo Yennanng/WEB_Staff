@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useCart } from '@/context/CartContext';
-import { createOrder, createCustomerAddress, getOrCreateGuestCustomer, fetchCustomerAddresses } from '@/services/supabase/supabaseShopApi';
+import { createOrder, createCustomerAddress, getOrCreateGuestCustomer } from '@/services/supabase/supabaseShopApi';
+import { fetchCustomerAddresses } from '@/services/supabase/supabaseUsersApi';
 import {
   MapPin, CreditCard, Truck, ChevronRight, CheckCircle2,
   ShieldCheck, Clock, Package

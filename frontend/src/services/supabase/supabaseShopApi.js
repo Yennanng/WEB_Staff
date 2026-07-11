@@ -79,6 +79,53 @@ export const fetchProducts = async (filters = {}) => {
   return result;
 };
 
+export const fetchProductById = async (product_id) => {
+  let query = supabase
+    .from('product')
+    .select(`
+      product_id, 
+      category_id, 
+      brand, 
+      name, 
+      description, 
+      is_active,
+      category:category_id (category_name),
+      product_variant (variant_id, sku, capacity_label, price, stock_quantity),
+      product_image (image_url)
+    `)
+    .eq('product_id', product_id)
+    .single();
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching product by id:', error);
+    throw error;
+  }
+
+  const variants = data.product_variant || [];
+  const images = data.product_image || [];
+  const minPrice = variants.length > 0
+    ? Math.min(...variants.map(v => Number(v.price)))
+    : 0;
+
+  const totalStock = variants.reduce((sum, v) => sum + Number(v.stock_quantity), 0);
+
+  return {
+    id: data.product_id,
+    name: data.name,
+    brand: data.brand || 'Khác',
+    category: data.category?.category_name || 'Khác',
+    pet_type: 'Chó, Mèo', 
+    price: minPrice,
+    stock: totalStock,
+    images: images.length > 0 ? images.map(img => img.image_url) : ['https://placehold.co/400?text=No+Image'],
+    variants: variants.map(v => v.capacity_label),
+    full_variants: variants,
+    description: data.description
+  };
+};
+
 // Cập nhật lại logic chọn Variant phù hợp nhất khi Add to Cart
 export const getVariantDetails = (product, selectedVariantLabel) => {
   if (!product || !product.full_variants) return null;
@@ -353,4 +400,3 @@ export const removeSelectedDbCartItems = async (customer_id, variantIds) => {
 
 export const getOrCreateGuestCustomer = async (data) => { return { customer_id: 'GST00001' }; };
 export const createCustomerAddress = async (data) => { return { address_id: 'ADR00001' }; };
-export const fetchCustomerAddresses = async (id) => { return []; };
