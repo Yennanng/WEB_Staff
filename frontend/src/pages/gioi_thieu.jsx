@@ -255,12 +255,12 @@ export default function AboutPage() {
             </div>
 
             {/* Form panel */}
-            <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-[32px] shadow-lg border border-gray-100">
+            <div className="lg:col-span-7 bg-white p-6 md:p-10 rounded-[32px] shadow-lg border border-gray-100">
               <span className="inline-block border border-gray-300 px-4 py-1 rounded-full text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wider">
                 Liên hệ
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#23361A] mb-8 font-sans">
-                Get In Touch !
+                Liên Hệ Với Chúng Tôi
               </h2>
               
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -329,7 +329,7 @@ export default function AboutPage() {
                   disabled={loading}
                   className="w-full bg-[#A2B447] text-[#23361A] hover:bg-[#56992F] hover:text-white font-bold py-4 rounded-full transition-all duration-300 transform active:scale-95 disabled:opacity-50"
                 >
-                  {loading ? 'Đang gửi...' : 'Submit Button'}
+                  {loading ? 'Đang gửi...' : 'Gửi đi'}
                 </button>
               </form>
             </div>

@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Search, ShoppingBag, Menu, X } from 'lucide-react';
 import { ROUTES } from '@/config/routes';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 
 // Custom Paw icon matching the brand identity
 const PawIcon = ({ className = "w-6 h-6" }) => (
@@ -28,28 +29,12 @@ export default function Header({ activePath, cartCount }) {
   const currentPath = activePath || router.pathname;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [user, setUser] = useState(null);
+  const { user, logout } = useAuth();          // ← dùng AuthContext
   const { cartItems } = useCart();
   const totalCartCount = cartCount !== undefined ? cartCount : (cartItems?.reduce((sum, item) => sum + item.quantity, 0) || 0);
 
-  useEffect(() => {
-    const savedUser = localStorage.getItem('customer_user');
-    if (savedUser) {
-      try {
-        const parsed = JSON.parse(savedUser);
-        setTimeout(() => {
-          setUser(parsed);
-        }, 0);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('customer_user');
-    setUser(null);
-    router.push('/');
+    logout(); // AuthContext xử lý: xóa localStorage + reset state + redirect '/'
   };
 
   const navLinks = [
@@ -148,7 +133,7 @@ export default function Header({ activePath, cartCount }) {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center justify-center rounded-full bg-wood-bark/20 hover:bg-wood-bark/30 px-3.5 py-1.5 text-xs font-bold text-wood-bark transition-all"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-wood-bark/20 hover:bg-wood-bark/30 px-3.5 py-1.5 text-xs font-bold text-wood-bark transition-all"
                 >
                   Đăng xuất
                 </button>

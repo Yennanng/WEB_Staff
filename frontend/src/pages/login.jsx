@@ -5,9 +5,11 @@ import { User, Lock, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import { authenticateCustomer } from '@/services/supabase/supabaseUsersApi';
 import { ROUTES } from '@/config/routes';
+import { useAuth } from '@/context/AuthContext';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [phoneOrEmail, setPhoneOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -31,14 +33,15 @@ export default function LoginPage() {
 
       if (res.success) {
         toast.success(`Chào mừng ${res.user.first_name || 'Người dùng'} trở lại!`);
-        
-        // Save session depending on role
+
+        // Dùng AuthContext.login() để đồng bộ state toàn cục
         if (res.role === 'Customer') {
-          localStorage.setItem('customer_user', JSON.stringify(res.user));
+          login(res.user); // cập nhật AuthContext + localStorage cùng lúc
           setTimeout(() => {
             router.push(ROUTES.CUSTOMER.LANDING);
           }, 1200);
         } else {
+          // Staff không qua AuthContext (dùng key riêng 'staff_user')
           localStorage.setItem('staff_user', JSON.stringify(res.user));
           setTimeout(() => {
             router.push(ROUTES.STAFF.USERS);

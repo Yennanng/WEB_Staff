@@ -52,6 +52,24 @@ export default function Step3_Payment({ booking, setBooking, onBack, onConfirmed
         const currentYear = new Date().getFullYear();
         calculatedDob = `${currentYear - parseInt(booking.pet.ageYears)}-01-01`; // Mặc định ngày 1/1
       }
+
+      const finalBookingData = {
+        ...booking,
+        pet: {
+          ...booking.pet,
+          dob: calculatedDob || booking.pet.dob
+        }
+      };
+
+      await createHotelBooking({
+        booking: finalBookingData,
+        room: room,
+        totalBill: total,
+        taxAmount: tax,
+        orderId: orderId,
+        specialNotesText: buildSpecialNotesText(booking)
+      });
+
       setPhase('done');
       onConfirmed?.();
     } catch (e) {

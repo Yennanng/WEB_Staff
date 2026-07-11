@@ -61,9 +61,11 @@ export default function HeroSection() {
 
                         <h1
                             id="hero-title"
-                            className="relative [font-family:'Lora-BoldItalic',Helvetica] font-bold italic text-[#e5ec82] text-[85px] tracking-[-1.70px] leading-[96px] [text-shadow:0_4px_4px_rgba(85,111,48,0.4)]"
+                            className="relative [font-family:'Lora-BoldItalic',Helvetica] font-bold italic text-[#e5ec82] text-[40px] leading-[44px] md:text-[64px] md:leading-[72px] lg:text-[85px] lg:leading-[96px] tracking-[-1.70px] [text-shadow:0_4px_4px_rgba(85,111,48,0.4)]"
                         >
-                            Nâng Niu Thú Cưng <br /> Cùng PawCare
+                            Nâng Niu <br className="block md:hidden" /> 
+                            Thú Cưng <br /> 
+                            <span className="whitespace-nowrap">Cùng PawCare</span>
                         </h1>
 
                         <p className="relative max-w-[512px] text-[#eff4be] text-base leading-[34px] [font-family:'Inter-Regular',Helvetica] font-normal">
@@ -132,19 +134,19 @@ export default function HeroSection() {
                         <div className="grid grid-cols-2 gap-6">
                             {stats.map((stat) => (
                                 <div key={stat.value} className="flex flex-col items-start">
-                                    <span className="[font-family:'Inter-Bold',Helvetica] font-bold text-[94px] tracking-[-1.00px] leading-[124px] text-black">
+                                    <span className="[font-family:'Inter-Bold',Helvetica] font-bold text-[56px] md:text-[72px] lg:text-[94px] tracking-[-1.00px] leading-[64px] md:leading-[80px] lg:leading-[124px] text-black">
                                         {stat.value}
                                     </span>
-                                    <p className="mt-2 w-[201px] [font-family:'Inter-Regular',Helvetica] font-normal text-[#030605] text-2xl tracking-[1.00px] leading-8">
+                                    <p className="mt-2 w-auto max-w-[201px] [font-family:'Inter-Regular',Helvetica] font-normal text-[#030605] text-lg lg:text-2xl tracking-[1.00px] leading-6 lg:leading-8">
                                         {stat.label}
                                     </p>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="flex flex-col items-start gap-6 lg:gap-8">
-                            <h2 className="[font-family:'Inter-Regular',Helvetica] font-normal text-[#030605] text-[42px] tracking-[-0.84px] leading-[46px]">
-                                Đăng Ký Nhận Ưu Đãi Ngay
+                        <div className="flex flex-col items-start gap-6 lg:gap-8 overflow-hidden w-full">
+                            <h2 className="w-full text-center md:text-left [font-family:'Inter-Regular',Helvetica] font-normal text-[#030605] text-[32px] md:text-[42px] tracking-[-0.84px] leading-[38px] md:leading-[46px]">
+                                Đăng Ký Nhận <br className="block md:hidden" /> Ưu Đãi Ngay
                             </h2>
 
                             <form
